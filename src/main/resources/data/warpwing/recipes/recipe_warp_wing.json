@@ -4,22 +4,22 @@
     [
         "ggg",
         "eff",
-        "   "
+        ""
     ],
     "key":
     {
         "g":
         {
-            "tag": "forge:gems/gold"
+            "tag": "forge:ingots/gold"
         },
         "e":
         {
             "item": "minecraft:ender_eye"
         },
-		"f":
-		{
-			"item": "minecraft:feather"
-		}
+        "f":
+        {
+            "item": "minecraft:feather"
+        }
     },
     "result":
     {
