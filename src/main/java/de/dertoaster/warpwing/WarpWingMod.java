@@ -4,6 +4,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import de.dertoaster.warpwing.init.WWItems;
+import de.dertoaster.warpwing.init.WWSounds;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -22,7 +25,11 @@ public class WarpWingMod {
 		
 		MinecraftForge.EVENT_BUS.register(this);
 		WWItems.ITEMS.register(modbus);
-		
+		modbus.addGenericListener(SoundEvent.class, WWSounds::registerSounds);
+	}
+
+	public static ResourceLocation prefix(String value) {
+		return new ResourceLocation(MODID, value);
 	}
 
 }
