@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern":
+    [
+        "ggg",
+        "eff",
+        "   "
+    ],
+    "key":
+    {
+        "g":
+        {
+            "tag": "forge:gems/gold"
+        },
+        "e":
+        {
+            "item": "minecraft:ender_eye"
+        },
+		"f":
+		{
+			"item": "minecraft:feather"
+		}
+    },
+    "result":
+    {
+        "item": "warpwing:warp_wing",
+        "count": 1
+    }
+}
