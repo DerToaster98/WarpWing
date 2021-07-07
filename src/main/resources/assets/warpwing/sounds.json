@@ -1,0 +1,9 @@
+{
+    "item.warpwing.woosh": 
+    {
+        "category": "item",
+        "sounds": [
+			{"name" : "warpwing:item/ww_woosh"}
+		]
+    }
+}   
