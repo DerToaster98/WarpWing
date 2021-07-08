@@ -20,6 +20,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -69,6 +70,7 @@ public class ItemWarpWing extends Item {
 					p_220038_0_.broadcastBreakEvent(EquipmentSlotType.MAINHAND);
 				});
 				player.teleportTo(respawnDimension, respawnPosition.getX(), respawnPosition.getY(), respawnPosition.getZ(), player.getRespawnAngle(), 0);
+				player.sendMessage(new StringTextComponent(TextFormatting.GRAY + I18n.get("item." + this.getRegistryName().getNamespace() + "." + this.getRegistryName().getPath() + ".teleporting", '\n')), ChatType.CHAT, player.getUUID());
 				player.connection.send(new SPlaySoundEffectPacket(WWSounds.ITEM_WARP_WING_WOOSH, SoundCategory.PLAYERS, (double) respawnPosition.getX(), (double) respawnPosition.getY(), (double) respawnPosition.getZ(), 1.0F, 1.0F));
 			}
 		}

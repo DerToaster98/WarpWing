@@ -2,5 +2,6 @@
     "item.warpwing.warp_wing": "Warp Wing",
 	
 	"item.warpwing.tooltip.hold_shift": "Hold shift to see more",
-    "item.warpwing.warp_wing.tooltip": "Does epic stuff lol"
+    "item.warpwing.warp_wing.tooltip": "Charge to warp home",
+	"item.warpwing.warp_wing.teleporting": "The wing guides you home"
 }   
