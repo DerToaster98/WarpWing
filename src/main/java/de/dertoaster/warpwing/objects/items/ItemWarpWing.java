@@ -43,14 +43,17 @@ public class ItemWarpWing extends Item {
 	
 	@Override
 	public void releaseUsing(ItemStack item, World world, LivingEntity user, int useDuration) {
-		if(user instanceof ServerPlayerEntity && useDuration >= 60) {
+		if(user instanceof ServerPlayerEntity && (getUseDuration(item) - useDuration) >= 60) {
 			ServerPlayerEntity player = (ServerPlayerEntity) user;
 			BlockPos respawnPosition = player.getRespawnPosition();
 			if(respawnPosition == null) {
+				if(world instanceof ServerWorld) {
+					ServerWorld sw = (ServerWorld)world;
+					respawnPosition = new BlockPos(sw.getLevelData().getXSpawn(), sw.getLevelData().getYSpawn(), sw.getLevelData().getZSpawn()); 
+				}
 			}
 			ServerWorld respawnDimension = world.getServer().getLevel(player.getRespawnDimension());
-			
-			if(respawnDimension != null && respawnPosition != null) {
+			if(respawnPosition != null) {
 				player.teleportTo(respawnDimension, respawnPosition.getX(), respawnPosition.getY(), respawnPosition.getZ(), player.getRespawnAngle(), 0);
 				player.connection.send(new SPlaySoundEffectPacket(WWSounds.ITEM_WARP_WING_WOOSH, SoundCategory.PLAYERS, (double)respawnPosition.getX(), (double)respawnPosition.getY(), (double)respawnPosition.getZ(), 1.0F, 1.0F));
 			}
