@@ -3,7 +3,7 @@
     {
         "category": "item",
         "sounds": [
-			{"name" : "warpwing:item/ww_woosh"}
+			{"name" : "warpwing:item/woosh"}
 		]
     }
 }   
