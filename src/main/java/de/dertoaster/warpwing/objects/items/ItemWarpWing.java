@@ -73,7 +73,9 @@ public class ItemWarpWing extends Item {
 				player.sendMessage(new StringTextComponent(TextFormatting.GRAY + I18n.get("item." + this.getRegistryName().getNamespace() + "." + this.getRegistryName().getPath() + ".teleporting", '\n')), ChatType.CHAT, player.getUUID());
 				player.connection.send(new SPlaySoundEffectPacket(WWSounds.ITEM_WARP_WING_WOOSH, SoundCategory.PLAYERS, (double) respawnPosition.getX(), (double) respawnPosition.getY(), (double) respawnPosition.getZ(), 1.0F, 1.0F));
 			}
-		}
+		} /*else if(world.isClientSide) { 
+			world.playLocalSound(user.getX(), user.getY(), user.getZ(), WWSounds.ITEM_WARP_WING_WOOSH, SoundCategory.AMBIENT, 10.0F, 1.0F, false);
+		}*/
 		
 		return item;
 	}
