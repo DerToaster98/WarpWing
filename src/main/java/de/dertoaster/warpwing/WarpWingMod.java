@@ -1,5 +1,7 @@
 package de.dertoaster.warpwing;
 
+import java.util.Locale;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,7 +31,7 @@ public class WarpWingMod {
 	}
 
 	public static ResourceLocation prefix(String value) {
-		return new ResourceLocation(MODID, value);
+		return new ResourceLocation(MODID, value.toLowerCase(Locale.ROOT));
 	}
 
 }
