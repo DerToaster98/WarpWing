@@ -4,19 +4,18 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'eclipse'
-apply plugin: 'maven-publish'
 
 version = "$mcVersion-$modVersion"
 group = 'de.dertoaster.warpwing'
 archivesBaseName = "$modName"
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
+java.toolchain.languageVersion = JavaLanguageVersion.of(17) // Mojang ships Java 8 to end users, so your mod should target Java 8.
 
 //println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
@@ -31,7 +30,7 @@ minecraft {
     //
     // Use non-default mappings at your own risk. they may not always work.
     // Simply re-run your setup task after changing the mappings to update your workspace.
-    mappings channel: 'official', version: '1.16.5'
+    mappings channel: 'official', version: '1.18.1'
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
     
     // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
@@ -55,7 +54,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                examplemod {
+                warpwing {
                     source sourceSets.main
                 }
             }
@@ -77,7 +76,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                examplemod {
+                warpwing {
                     source sourceSets.main
                 }
             }
@@ -102,7 +101,7 @@ minecraft {
             args '--mod', 'examplemod', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
             mods {
-                examplemod {
+                warpwing {
                     source sourceSets.main
                 }
             }
@@ -117,7 +116,7 @@ dependencies {
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.16.5-36.1.25'
+    minecraft 'net.minecraftforge:forge:1.18.1-39.0.0'
 
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"
@@ -137,6 +136,41 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
+}
+
+// Generate a fixed tsrg file after generating the default tsrg file
+createMcpToSrg {
+    outputs.upToDateWhen {false}
+    doLast {
+        fixFG5TsrgForMixinAP(output.get().asFile, file("${buildDir}/fixMcpToSrg/output.tsrg"))
+    }
+}
+
+// Function that actually fixes the TSRG file
+static def fixFG5TsrgForMixinAP(File inFile, File outFile) {
+    // Make directory if needed
+    outFile.parentFile.mkdirs()
+
+    try (Scanner scanner = new Scanner(inFile); PrintWriter out = new PrintWriter(outFile)) {
+        boolean firstLine = true
+        while (scanner.hasNextLine()) {
+            String next = scanner.nextLine()
+
+            // Skip first 'tsrg left right' header line
+            if (firstLine) {
+                firstLine = false
+                continue
+            }
+
+            // Skip 'static' indicators
+            if (next.trim() == "static") {
+                continue
+            }
+
+            // Export line otherwise
+            out.println(next)
+        }
+    }
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
