@@ -7,8 +7,8 @@ import org.apache.logging.log4j.Logger;
 
 import de.dertoaster.warpwing.init.WWItems;
 import de.dertoaster.warpwing.init.WWSounds;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;

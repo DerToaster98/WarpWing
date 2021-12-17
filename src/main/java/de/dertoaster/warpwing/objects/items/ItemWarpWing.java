@@ -5,27 +5,27 @@ import java.util.List;
 import org.lwjgl.glfw.GLFW;
 
 import de.dertoaster.warpwing.init.WWSounds;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.UseAction;
-import net.minecraft.network.play.server.SPlaySoundEffectPacket;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ChatType;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.ChatType;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.protocol.game.ClientboundSoundPacket;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.level.Level;
 
 public class ItemWarpWing extends Item {
 
@@ -34,8 +34,8 @@ public class ItemWarpWing extends Item {
 	}
 
 	@Override
-	public UseAction getUseAnimation(ItemStack p_77661_1_) {
-		return UseAction.BOW;
+	public UseAnim getUseAnimation(ItemStack p_77661_1_) {
+		return UseAnim.BOW;
 	}
 
 	@Override
@@ -54,24 +54,24 @@ public class ItemWarpWing extends Item {
 	}
 
 	@Override
-	public ItemStack finishUsingItem(ItemStack item, World world, LivingEntity user) {
-		if (user instanceof ServerPlayerEntity) {
-			ServerPlayerEntity player = (ServerPlayerEntity) user;
+	public ItemStack finishUsingItem(ItemStack item, Level world, LivingEntity user) {
+		if (user instanceof ServerPlayer) {
+			ServerPlayer player = (ServerPlayer) user;
 			BlockPos respawnPosition = player.getRespawnPosition();
 			if (respawnPosition == null) {
-				if (world instanceof ServerWorld) {
-					ServerWorld sw = (ServerWorld) world;
+				if (world instanceof ServerLevel) {
+					ServerLevel sw = (ServerLevel) world;
 					respawnPosition = new BlockPos(sw.getLevelData().getXSpawn(), sw.getLevelData().getYSpawn(), sw.getLevelData().getZSpawn());
 				}
 			}
-			ServerWorld respawnDimension = world.getServer().getLevel(player.getRespawnDimension());
+			ServerLevel respawnDimension = world.getServer().getLevel(player.getRespawnDimension());
 			if (respawnPosition != null) {
 				item.hurtAndBreak(1, user, (p_220038_0_) -> {
-					p_220038_0_.broadcastBreakEvent(EquipmentSlotType.MAINHAND);
+					p_220038_0_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
 				});
 				player.teleportTo(respawnDimension, respawnPosition.getX(), respawnPosition.getY(), respawnPosition.getZ(), player.getRespawnAngle(), 0);
-				player.sendMessage(new StringTextComponent(TextFormatting.GRAY + I18n.get("item." + this.getRegistryName().getNamespace() + "." + this.getRegistryName().getPath() + ".teleporting", '\n')), ChatType.CHAT, player.getUUID());
-				player.connection.send(new SPlaySoundEffectPacket(WWSounds.ITEM_WARP_WING_WOOSH, SoundCategory.PLAYERS, (double) respawnPosition.getX(), (double) respawnPosition.getY(), (double) respawnPosition.getZ(), 1.0F, 1.0F));
+				player.sendMessage(new TextComponent(ChatFormatting.GRAY + I18n.get("item." + this.getRegistryName().getNamespace() + "." + this.getRegistryName().getPath() + ".teleporting", '\n')), ChatType.CHAT, player.getUUID());
+				player.connection.send(new ClientboundSoundPacket(WWSounds.ITEM_WARP_WING_WOOSH, SoundSource.PLAYERS, (double) respawnPosition.getX(), (double) respawnPosition.getY(), (double) respawnPosition.getZ(), 1.0F, 1.0F));
 			}
 		} /*else if(world.isClientSide) { 
 			world.playLocalSound(user.getX(), user.getY(), user.getZ(), WWSounds.ITEM_WARP_WING_WOOSH, SoundCategory.AMBIENT, 10.0F, 1.0F, false);
@@ -81,19 +81,19 @@ public class ItemWarpWing extends Item {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack p_77624_1_, World p_77624_2_, List<ITextComponent> tooltip, ITooltipFlag p_77624_4_) {
+	public void appendHoverText(ItemStack p_77624_1_, Level p_77624_2_, List<Component> tooltip, TooltipFlag p_77624_4_) {
 		super.appendHoverText(p_77624_1_, p_77624_2_, tooltip, p_77624_4_);
 		if (GLFW.glfwGetKey(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT) != GLFW.GLFW_PRESS) {
-			tooltip.add(new StringTextComponent(TextFormatting.BLUE + I18n.get("item." + this.getRegistryName().getNamespace() + ".tooltip.hold_shift", '\n', '\n', '\n', '\n', '\n', '\n', '\n', '\n', '\n', '\n')));
+			tooltip.add(new TextComponent(ChatFormatting.BLUE + I18n.get("item." + this.getRegistryName().getNamespace() + ".tooltip.hold_shift", '\n', '\n', '\n', '\n', '\n', '\n', '\n', '\n', '\n', '\n')));
 		} else {
-			tooltip.add(new StringTextComponent(TextFormatting.BLUE + I18n.get("item." + this.getRegistryName().getNamespace() + "." + this.getRegistryName().getPath() + ".tooltip", '\n', '\n', '\n', '\n', '\n', '\n', '\n', '\n', '\n', '\n')));
+			tooltip.add(new TextComponent(ChatFormatting.BLUE + I18n.get("item." + this.getRegistryName().getNamespace() + "." + this.getRegistryName().getPath() + ".tooltip", '\n', '\n', '\n', '\n', '\n', '\n', '\n', '\n', '\n', '\n')));
 		}
 	}
 
-	public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
 		ItemStack itemstack = player.getItemInHand(hand);
 		player.startUsingItem(hand);
-		return ActionResult.consume(itemstack);
+		return InteractionResultHolder.consume(itemstack);
 	}
 
 }
