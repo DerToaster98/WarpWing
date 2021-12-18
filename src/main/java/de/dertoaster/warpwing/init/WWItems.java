@@ -1,7 +1,7 @@
 package de.dertoaster.warpwing.init;
 
 import de.dertoaster.warpwing.WarpWingMod;
-import de.dertoaster.warpwing.objects.items.ItemWarpWing;
+import de.dertoaster.warpwing.item.ItemWarpWing;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;
@@ -14,5 +14,16 @@ public class WWItems {
 
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, WarpWingMod.MODID);
 	
-	public static final RegistryObject<Item> ITEM_WARP_WING = ITEMS.register("warp_wing", () -> new ItemWarpWing(new Properties().tab(CreativeModeTab.TAB_TRANSPORTATION).stacksTo(1).setNoRepair().durability(16).rarity(Rarity.RARE)));
+	//formatter:off
+	public static final RegistryObject<Item> ITEM_WARP_WING = ITEMS.register(
+		"warp_wing", () -> new ItemWarpWing(
+			new Properties()
+			.tab(CreativeModeTab.TAB_TRANSPORTATION)
+			.stacksTo(1)
+			.setNoRepair()
+			.durability(WarpWingMod.getConfig().durability)
+			.rarity(Rarity.RARE)
+		)
+	);
+	//formatter:on
 }
