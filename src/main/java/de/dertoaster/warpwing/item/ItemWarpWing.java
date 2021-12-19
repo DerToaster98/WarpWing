@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.lwjgl.glfw.GLFW;
 
-import de.dertoaster.warpwing.WarpWingMod;
+import de.dertoaster.warpwing.config.WarpWingModConfigHolder;
 import de.dertoaster.warpwing.init.WWSounds;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -41,7 +41,7 @@ public class ItemWarpWing extends Item {
 
 	@Override
 	public int getUseDuration(ItemStack p_77626_1_) {
-		return WarpWingMod.getConfig().useDuration;
+		return WarpWingModConfigHolder.ITEM_CONFIG.wwUseDuration.get();
 	}
 
 	@Override

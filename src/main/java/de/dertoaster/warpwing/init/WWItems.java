@@ -1,6 +1,7 @@
 package de.dertoaster.warpwing.init;
 
 import de.dertoaster.warpwing.WarpWingMod;
+import de.dertoaster.warpwing.config.WarpWingModConfigHolder;
 import de.dertoaster.warpwing.item.ItemWarpWing;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -21,7 +22,7 @@ public class WWItems {
 			.tab(CreativeModeTab.TAB_TRANSPORTATION)
 			.stacksTo(1)
 			.setNoRepair()
-			.durability(WarpWingMod.getConfig().durability)
+			.durability(WarpWingModConfigHolder.ITEM_CONFIG.wwDurability.get())
 			.rarity(Rarity.RARE)
 		)
 	);
