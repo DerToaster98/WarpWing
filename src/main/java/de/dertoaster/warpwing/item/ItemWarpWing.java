@@ -33,12 +33,17 @@ public class ItemWarpWing extends Item {
 	public ItemWarpWing(Properties props) {
 		super(props);
 	}
+	
+	@Override
+	public int getMaxDamage(ItemStack stack) {
+		return WarpWingModConfigHolder.ITEM_CONFIG.wwDurability.get();
+	}
 
 	@Override
 	public UseAnim getUseAnimation(ItemStack p_77661_1_) {
 		return UseAnim.BOW;
 	}
-
+	
 	@Override
 	public int getUseDuration(ItemStack p_77626_1_) {
 		return WarpWingModConfigHolder.ITEM_CONFIG.wwUseDuration.get();
