@@ -76,6 +76,7 @@ public class ItemWarpWing extends Item {
 					p_220038_0_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
 				});
 				player.teleportTo(respawnDimension, respawnPosition.getX(), respawnPosition.getY(), respawnPosition.getZ(), player.getRespawnAngle(), 0);
+				//TODO: Change this to be translatable! Don'T ever use I18n in server code!
 				player.sendMessage(new TextComponent(ChatFormatting.GRAY + I18n.get("item." + this.getRegistryName().getNamespace() + "." + this.getRegistryName().getPath() + ".teleporting", '\n')), ChatType.CHAT, player.getUUID());
 				player.connection.send(new ClientboundSoundPacket(WWSounds.ITEM_WARP_WING_WOOSH, SoundSource.PLAYERS, (double) respawnPosition.getX(), (double) respawnPosition.getY(), (double) respawnPosition.getZ(), 1.0F, 1.0F));
 			}
