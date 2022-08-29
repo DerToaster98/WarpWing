@@ -22,7 +22,7 @@ public class WWItems {
 			.tab(CreativeModeTab.TAB_TRANSPORTATION)
 			.stacksTo(1)
 			.setNoRepair()
-			.durability(WarpWingModConfigHolder.ITEM_CONFIG.wwDurability.get())
+			.durability(WarpWingModConfigHolder.CONFIG.wwDurability.get())
 			.rarity(Rarity.RARE)
 		)
 	);

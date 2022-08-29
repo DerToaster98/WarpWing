@@ -1,7 +1,7 @@
 {
     "item.warpwing.warp_wing": "Warp Wing",
 	
-	"item.warpwing.tooltip.hold_shift": "Hold shift to see more",
-    "item.warpwing.warp_wing.tooltip": "Charge to warp home",
-	"item.warpwing.warp_wing.teleporting": "The wing guides you home"
+	"item.warpwing.tooltip.hold_shift": "\u00A79Hold \u00A7f[\u00A7eSHIFT\u00A7f]\u00A79 to see more",
+    "item.warpwing.warp_wing.tooltip": "\u00A79Charge to warp home",
+	"item.warpwing.warp_wing.teleporting": "\u00A79The wing guides you home"
 }   

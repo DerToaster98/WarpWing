@@ -2,11 +2,8 @@ package de.dertoaster.warpwing.item;
 
 import de.dertoaster.warpwing.config.WarpWingModConfigHolder;
 import de.dertoaster.warpwing.init.WWSounds;
-import net.minecraft.ChatFormatting;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.ChatType;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -28,7 +25,7 @@ public class ItemWarpWing extends ItemLore {
 	
 	@Override
 	public int getMaxDamage(ItemStack stack) {
-		return WarpWingModConfigHolder.ITEM_CONFIG.wwDurability.get();
+		return WarpWingModConfigHolder.CONFIG.wwDurability.get();
 	}
 
 	@Override
@@ -38,7 +35,7 @@ public class ItemWarpWing extends ItemLore {
 	
 	@Override
 	public int getUseDuration(ItemStack p_77626_1_) {
-		return WarpWingModConfigHolder.ITEM_CONFIG.wwUseDuration.get();
+		return WarpWingModConfigHolder.CONFIG.wwUseDuration.get();
 	}
 
 	@Override
@@ -68,9 +65,8 @@ public class ItemWarpWing extends ItemLore {
 					p_220038_0_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
 				});
 				player.teleportTo(respawnDimension, respawnPosition.getX(), respawnPosition.getY(), respawnPosition.getZ(), player.getRespawnAngle(), 0);
-				//TODO: Change this to be translatable! Don'T ever use I18n in server code!
-				player.sendMessage(new TextComponent(ChatFormatting.GRAY + I18n.get("item." + this.getRegistryName().getNamespace() + "." + this.getRegistryName().getPath() + ".teleporting", '\n')), ChatType.CHAT, player.getUUID());
-				player.connection.send(new ClientboundSoundPacket(WWSounds.ITEM_WARP_WING_WOOSH, SoundSource.PLAYERS, (double) respawnPosition.getX(), (double) respawnPosition.getY(), (double) respawnPosition.getZ(), 1.0F, 1.0F));
+				player.sendSystemMessage(Component.translatable("item." + this.getRegistryName().getNamespace() + "." + this.getRegistryName().getPath() + ".teleporting"));
+				player.connection.send(new ClientboundSoundPacket(WWSounds.ITEM_WARP_WING_WOOSH.get(), SoundSource.PLAYERS, (double) respawnPosition.getX(), (double) respawnPosition.getY(), (double) respawnPosition.getZ(), 1.0F, 1.0F, player.getRandom().nextLong()));
 			}
 		} /*else if(world.isClientSide) { 
 			world.playLocalSound(user.getX(), user.getY(), user.getZ(), WWSounds.ITEM_WARP_WING_WOOSH, SoundCategory.AMBIENT, 10.0F, 1.0F, false);

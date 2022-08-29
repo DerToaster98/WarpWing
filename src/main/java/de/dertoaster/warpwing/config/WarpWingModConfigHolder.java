@@ -1,6 +1,11 @@
 package de.dertoaster.warpwing.config;
 
+import java.io.File;
+
 import org.apache.commons.lang3.tuple.Pair;
+
+import com.electronwill.nightconfig.core.file.CommentedFileConfig;
+import com.electronwill.nightconfig.core.io.WritingMode;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
@@ -29,14 +34,19 @@ public class WarpWingModConfigHolder {
 		}
 	}
 	
-	public static final ItemConfig ITEM_CONFIG;
-	public static final ForgeConfigSpec ITEM_CONFIG_SPEC;
-	
+	public static final ItemConfig CONFIG;
+	public static final ForgeConfigSpec CONFIG_SPEC;
 	static {
-		Pair<ItemConfig, ForgeConfigSpec> itemConfigSpecPair = new ForgeConfigSpec.Builder().configure(ItemConfig::new);
-		
-		ITEM_CONFIG = itemConfigSpecPair.getLeft();
-		ITEM_CONFIG_SPEC = itemConfigSpecPair.getRight();
+		final Pair<ItemConfig, ForgeConfigSpec> serverSpecPair = new ForgeConfigSpec.Builder().configure(ItemConfig::new);
+		CONFIG = serverSpecPair.getLeft();
+		CONFIG_SPEC = serverSpecPair.getRight();
+	}
+	
+	public static void loadConfig(ForgeConfigSpec config, String path) {
+		final CommentedFileConfig file = CommentedFileConfig.builder(new File(path)).sync().autosave()
+				.writingMode(WritingMode.REPLACE).build();
+		file.load();
+		config.setConfig(file);
 	}
 	
 }
