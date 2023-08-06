@@ -9,23 +9,22 @@ import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
 import com.google.common.base.Predicates;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 
 public class WarpWingModConfigHolder {
-
+	
 	public static class ItemConfig {
 		private static final int defaultDurability = 16;
 		private static final int defaultUseDuration = 40;
-		private static final List<ResourceLocation> defaultHotDimensions = List.of(BuiltinDimensionTypes.NETHER_EFFECTS);
-		private static final List<ResourceLocation> defaultEnderDimensions = List.of(BuiltinDimensionTypes.END_EFFECTS);
+		private static final List<String> defaultHotDimensions = List.of(BuiltinDimensionTypes.NETHER_EFFECTS.toString());
+		private static final List<String> defaultEnderDimensions = List.of(BuiltinDimensionTypes.END_EFFECTS.toString());
 		
 		public final ConfigValue<Integer> wwDurability;
 		public final ConfigValue<Integer> wwUseDuration;
-		public final ConfigValue<List<? extends ResourceLocation>> wwHotDimensions;
-		public final ConfigValue<List<? extends ResourceLocation>> wwEnderDimensions;
+		public final ConfigValue<List<? extends String>> wwHotDimensions;
+		public final ConfigValue<List<? extends String>> wwEnderDimensions;
 		
 		public ItemConfig(ForgeConfigSpec.Builder builder) {
 			builder.push("warpwing-item");
