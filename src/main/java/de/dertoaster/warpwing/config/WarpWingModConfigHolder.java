@@ -7,6 +7,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
+import com.google.common.base.Predicates;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
@@ -23,8 +24,8 @@ public class WarpWingModConfigHolder {
 		
 		public final ConfigValue<Integer> wwDurability;
 		public final ConfigValue<Integer> wwUseDuration;
-		public final ConfigValue<List<ResourceLocation>> wwHotDimensions;
-		public final ConfigValue<List<ResourceLocation>> wwEnderDimensions;
+		public final ConfigValue<List<? extends ResourceLocation>> wwHotDimensions;
+		public final ConfigValue<List<? extends ResourceLocation>> wwEnderDimensions;
 		
 		public ItemConfig(ForgeConfigSpec.Builder builder) {
 			builder.push("warpwing-item");
@@ -40,11 +41,11 @@ public class WarpWingModConfigHolder {
 			
 			this.wwHotDimensions = builder
 					.comment("Dimensions in which the wing will burn")
-					.define("hotDimensions", defaultHotDimensions);
+					.defineList("hotDimensions", () -> defaultHotDimensions, Predicates.alwaysTrue());
 			
 			this.wwEnderDimensions = builder
 					.comment("Dimensions in which the wing will teleport to a random place")
-					.define("enderDimensions", defaultEnderDimensions);
+					.defineList("enderDimensions", () -> defaultEnderDimensions, Predicates.alwaysTrue());
 			
 			builder.pop();
 		}
