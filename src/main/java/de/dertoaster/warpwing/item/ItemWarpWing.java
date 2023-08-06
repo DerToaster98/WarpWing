@@ -109,19 +109,7 @@ public class ItemWarpWing extends ItemLore {
 			if (pEntity.isInWater() || (pEntity.wasOnFire && !pEntity.isOnFire())) {
 				extinguishWing(pStack, pLevel, pEntity);
 			} else {
-				if (pEntity.tickCount % 5 == 0) {
-					if (!(pEntity instanceof Player p && (p.isCreative() || p.isSpectator()))) {
-						pEntity.setSecondsOnFire(5);
-					}
-					pEntity.hurt(pLevel.damageSources().onFire(), 1);
-					if (pEntity.tickCount % 20 == 0) {
-						if (pEntity instanceof LivingEntity le) {
-							pStack.hurtAndBreak(1, le, (arg0) -> {
-								// Send message and play sound
-							});
-						}
-					}
-				}
+				burnDownWing(pStack, pLevel, pEntity);
 			}
 			break;
 		case NORMAL:
@@ -137,6 +125,22 @@ public class ItemWarpWing extends ItemLore {
 		setState(pStack, EWingState.BURNT);
 		pStack.setDamageValue(pStack.getMaxDamage() - 1);
 		// TODO: Play some extignuishing sounds
+	}
+	
+	protected void burnDownWing(ItemStack pStack, Level pLevel, Entity pEntity) {
+		if (pEntity.tickCount % 5 == 0) {
+			if (!(pEntity instanceof Player p && (p.isCreative() || p.isSpectator()))) {
+				pEntity.setSecondsOnFire(5);
+			}
+			pEntity.hurt(pLevel.damageSources().onFire(), 1);
+			if (pEntity.tickCount % 20 == 0) {
+				if (pEntity instanceof LivingEntity le) {
+					pStack.hurtAndBreak(1, le, (arg0) -> {
+						// Send message and play sound
+					});
+				}
+			}
+		}
 	}
 
 	protected static final String cWING_STATE_KEY = "WarpWingWingState";
