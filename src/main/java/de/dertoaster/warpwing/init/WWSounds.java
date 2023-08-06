@@ -13,7 +13,7 @@ public class WWSounds {
 	// public static final SoundEvent ITEM_WARP_WING_WOOSH = createEvent("item.warpwing.woosh");
 
 	// formatter:off
-	public static final RegistryObject<SoundEvent> ITEM_WARP_WING_WOOSH = SOUNDS.register("item.warpwing.woosh", () -> new SoundEvent(WarpWingMod.prefix("item.warpwing.woosh")));
+	public static final RegistryObject<SoundEvent> ITEM_WARP_WING_WOOSH = SOUNDS.register("item.warpwing.woosh", () -> SoundEvent.createFixedRangeEvent(WarpWingMod.prefix("item.warpwing.woosh"), 8.0F));
 	// formatter:on
 
 }

@@ -3,10 +3,12 @@ package de.dertoaster.warpwing.item;
 import de.dertoaster.warpwing.config.WarpWingModConfigHolder;
 import de.dertoaster.warpwing.init.WWSounds;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -66,7 +68,8 @@ public class ItemWarpWing extends ItemLore {
 				});
 				player.teleportTo(respawnDimension, respawnPosition.getX(), respawnPosition.getY(), respawnPosition.getZ(), player.getRespawnAngle(), 0);
 				player.sendSystemMessage(Component.translatable("item." + this.getRegistryName().getNamespace() + "." + this.getRegistryName().getPath() + ".teleporting"));
-				player.connection.send(new ClientboundSoundPacket(WWSounds.ITEM_WARP_WING_WOOSH.get(), SoundSource.PLAYERS, (double) respawnPosition.getX(), (double) respawnPosition.getY(), (double) respawnPosition.getZ(), 1.0F, 1.0F, player.getRandom().nextLong()));
+				final Holder<SoundEvent> soundHolder = Holder.direct(WWSounds.ITEM_WARP_WING_WOOSH.get());
+				player.connection.send(new ClientboundSoundPacket(soundHolder, SoundSource.PLAYERS, (double) respawnPosition.getX(), (double) respawnPosition.getY(), (double) respawnPosition.getZ(), 1.0F, 1.0F, player.getRandom().nextLong()));
 			}
 		} /*else if(world.isClientSide) { 
 			world.playLocalSound(user.getX(), user.getY(), user.getZ(), WWSounds.ITEM_WARP_WING_WOOSH, SoundCategory.AMBIENT, 10.0F, 1.0F, false);
