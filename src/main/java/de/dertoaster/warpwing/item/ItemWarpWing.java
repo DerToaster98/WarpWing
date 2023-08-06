@@ -106,7 +106,7 @@ public class ItemWarpWing extends ItemLore {
 		
 		switch (getState(pStack)) {
 		case BURNING:
-			if (pEntity.isInWater() || (pEntity.wasOnFire && pEntity.isOnFire())) {
+			if (pEntity.isInWater() || (pEntity.wasOnFire && !pEntity.isOnFire())) {
 				extinguishWing(pStack, pLevel, pEntity);
 			} else {
 				if (pEntity.tickCount % 5 == 0) {
