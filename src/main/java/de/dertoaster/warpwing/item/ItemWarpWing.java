@@ -142,6 +142,14 @@ public class ItemWarpWing extends ItemLore {
 			}
 		}
 	}
+	
+	@Override
+	public int getDamage(ItemStack stack) {
+		if (getState(stack).equals(EWingState.BURNT)) {
+			return getMaxDamage(stack) - 1;
+		}
+		return super.getDamage(stack);
+	}
 
 	protected static final String cWING_STATE_KEY = "WarpWingWingState";
 	
