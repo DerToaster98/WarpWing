@@ -1,6 +1,26 @@
 {
-  "parent": "minecraft:item/handheld",
-  "textures": {
-    "layer0": "warpwing:item/warp_wing"
-  }
+    "parent": "minecraft:item/handheld",
+    "textures": {
+		"layer0": "warpwing:item/warp_wing"
+    },
+    "overrides": [
+		{
+			"predicate": {
+				"warpwing:wing_state": 0
+			},
+			"model": "warpwing:item/wing_type/normal"
+		},
+		{
+			"predicate": {
+				"warpwing:wing_state": 1
+			},
+			"model": "warpwing:item/wing_type/burning"
+		},
+		{
+			"predicate": {
+				"warpwing:wing_state": 2
+			},
+			"model": "warpwing:item/wing_type/burnt"
+		}
+    ]
 }

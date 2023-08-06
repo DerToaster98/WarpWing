@@ -1,0 +1,6 @@
+{
+  "parent": "warpwing:item/warp_wing",
+  "textures": {
+    "layer0": "warpwing:item/burning_wing"
+  }
+}
