@@ -4,6 +4,8 @@ import de.dertoaster.warpwing.config.WarpWingModConfigHolder;
 import de.dertoaster.warpwing.init.WWSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.server.level.ServerLevel;
@@ -20,6 +22,12 @@ import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 
 public class ItemWarpWing extends ItemLore {
+	
+	public static enum EWingState {
+		NORMAL,
+		BURNING,
+		BURNT
+	}
 
 	public ItemWarpWing(Properties props) {
 		super(props);
@@ -82,6 +90,24 @@ public class ItemWarpWing extends ItemLore {
 		ItemStack itemstack = player.getItemInHand(hand);
 		player.startUsingItem(hand);
 		return InteractionResultHolder.consume(itemstack);
+	}
+	
+	protected static final String cWING_STATE_KEY = "WarpWingWingState";
+	
+	public static void setState(ItemStack stack, EWingState state) {
+		if (stack.getItem() instanceof ItemWarpWing) {
+			if (getState(stack) != state) {
+				CompoundTag tag = stack.getOrCreateTag();
+				tag.putInt(cWING_STATE_KEY, state.ordinal());
+			}
+		}
+	}
+
+	public static EWingState getState(ItemStack itemStack) {
+		if (itemStack.getTag() != null && itemStack.getTag().contains(cWING_STATE_KEY, Tag.TAG_INT)) {
+			return EWingState.values()[itemStack.getTag().getInt(cWING_STATE_KEY)];
+		}
+		return EWingState.NORMAL;
 	}
 
 }
