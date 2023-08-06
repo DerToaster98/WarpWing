@@ -113,16 +113,23 @@ public class ItemWarpWing extends ItemLore {
 			}
 			break;
 		case NORMAL:
-			// If in a hot dimension, BURN!!!
-			if (WarpWingModConfigHolder.CONFIG.wwHotDimensions.get().contains(pLevel.dimensionType().effectsLocation().toString())) {
-				setState(pStack, EWingState.BURNING);
-				burnDownWing(pStack, pLevel, pEntity);
-				// TODO: Send message and play SFX
-			}
+			igniteWing(pStack, pLevel, pEntity);
 			break;
 		default:
 			break;
 		
+		}
+	}
+	
+	protected void igniteWing(ItemStack pStack, Level pLevel, Entity pEntity) {
+		if (pEntity instanceof Player p && (p.isCreative() || p.isSpectator())) {
+			return;
+		}
+		// If in a hot dimension, BURN!!!
+		if (WarpWingModConfigHolder.CONFIG.wwHotDimensions.get().contains(pLevel.dimensionType().effectsLocation().toString())) {
+			setState(pStack, EWingState.BURNING);
+			burnDownWing(pStack, pLevel, pEntity);
+			// TODO: Send message and play SFX
 		}
 	}
 	
