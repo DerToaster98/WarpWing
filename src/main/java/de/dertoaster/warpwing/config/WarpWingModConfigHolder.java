@@ -18,11 +18,15 @@ public class WarpWingModConfigHolder {
 	public static class ItemConfig {
 		private static final int defaultDurability = 16;
 		private static final int defaultUseDuration = 40;
+		private static final int defaultMinRTPDistance = 32;
+		private static final int defaultMaxRTPDistance = 128;
 		private static final List<String> defaultHotDimensions = List.of(BuiltinDimensionTypes.NETHER_EFFECTS.toString());
 		private static final List<String> defaultEnderDimensions = List.of(BuiltinDimensionTypes.END_EFFECTS.toString());
 		
 		public final ConfigValue<Integer> wwDurability;
 		public final ConfigValue<Integer> wwUseDuration;
+		public final ConfigValue<Integer> wwRandomTPMinDistance;
+		public final ConfigValue<Integer> wwRandomTPMaxDistance;
 		public final ConfigValue<List<? extends String>> wwHotDimensions;
 		public final ConfigValue<List<? extends String>> wwEnderDimensions;
 		
@@ -37,6 +41,14 @@ public class WarpWingModConfigHolder {
 					.comment("Durability of the warp wing item")
 					.worldRestart()
 					.defineInRange("durability", defaultDurability, 1, Integer.MAX_VALUE);
+			
+			this.wwRandomTPMinDistance = builder
+					.comment("Minimum distance of random teleport")
+					.defineInRange("randomTPMinDistance", defaultMinRTPDistance, 0, Integer.MAX_VALUE);
+			
+			this.wwRandomTPMaxDistance = builder
+					.comment("Maximum distance of random teleport")
+					.defineInRange("randomTPMaxDistance", defaultMaxRTPDistance, 0, Integer.MAX_VALUE);
 			
 			this.wwHotDimensions = builder
 					.comment("Dimensions in which the wing will burn")
