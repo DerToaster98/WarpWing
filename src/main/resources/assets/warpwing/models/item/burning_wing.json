@@ -1,6 +1,6 @@
 {
     "parent": "minecraft:item/handheld",
     "textures": {
-		"layer0": "warpwing:item/warp_wing"
+		"layer0": "warpwing:item/burning_wing"
     }
 }

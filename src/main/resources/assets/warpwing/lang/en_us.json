@@ -1,7 +1,17 @@
 {
     "item.warpwing.warp_wing": "Warp Wing",
+	"item.warpwing.burnt_wing": "Burnt Wing",
+	"item.warpwing.burning_wing": "Burning Wing",
 	
 	"item.warpwing.tooltip.hold_shift": "\u00A79Hold \u00A7f[\u00A7eSHIFT\u00A7f]\u00A79 to see more",
     "item.warpwing.warp_wing.tooltip": "\u00A79Charge to warp home",
-	"item.warpwing.warp_wing.teleporting": "\u00A79The wing guides you home"
+	"item.warpwing.warp_wing.teleporting": "\u00A79The wing guides you home",
+	"item.warpwing.warp_wing.igniting": "\u00A74The wing catched fire!",
+	
+	"item.warpwing.burning_wing.burnt": "\u00A74The fire has been extinguished but the wing was irreparably damaged...",
+	"item.warpwing.burning_wing.tooltip": "\u00A74It burns! Put it out, the wing won't last long",
+	"item.warpwing.burning_wing.teleporting": "\u00A79The wing guides you home",
+	
+	"item.warpwing.burnt_wing.tooltip": "\u00A79Charge to warp home. The wing has been burnt, it won't last long...",
+	"item.warpwing.burnt_wing.teleporting": "\u00A79The wing guides you home but broke"
 }   
