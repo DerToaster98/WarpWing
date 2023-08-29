@@ -62,7 +62,7 @@ public abstract class AbstractItemWarpWing extends ItemLore {
 	}
 	
 	protected BlockPos getRespawnPosition(ServerPlayer player, ServerLevel respawnDimension) {
-		if (WarpWingModConfigHolder.CONFIG.wwEnderDimensions.get().contains(respawnDimension.dimensionType().effectsLocation().toString())) {
+		if (WarpWingModConfigHolder.CONFIG.wwEnderDimensions.get().contains(player.level().dimensionType().effectsLocation().toString())) {
 			int dMin = WarpWingModConfigHolder.CONFIG.wwRandomTPMinDistance.get();
 			int dMax = WarpWingModConfigHolder.CONFIG.wwRandomTPMaxDistance.get();
 			
