@@ -10,6 +10,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -39,7 +40,7 @@ public class ItemBurningWing extends AbstractItemWarpWing {
 	}
 	
 	@Override
-	protected BlockPos getRespawnPosition(ServerPlayer player, ServerLevel respawnDimension) {
+	protected Tuple<BlockPos, ServerLevel> getRespawnPosition(ServerPlayer player, ServerLevel respawnDimension) {
 		return null;
 	}
 

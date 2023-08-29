@@ -13,6 +13,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Tuple;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -61,7 +62,7 @@ public abstract class AbstractItemWarpWing extends ItemLore {
 		player.connection.send(new ClientboundSoundPacket(soundHolder, SoundSource.PLAYERS, (double) respawnPosition.getX(), (double) respawnPosition.getY(), (double) respawnPosition.getZ(), 1.0F, 1.0F, player.getRandom().nextLong()));
 	}
 	
-	protected BlockPos getRespawnPosition(ServerPlayer player, ServerLevel respawnDimension) {
+	protected Tuple<BlockPos, ServerLevel> getRespawnPosition(ServerPlayer player, ServerLevel respawnDimension) {
 		if (WarpWingModConfigHolder.CONFIG.wwEnderDimensions.get().contains(player.level().dimensionType().effectsLocation().toString())) {
 			int dMin = WarpWingModConfigHolder.CONFIG.wwRandomTPMinDistance.get();
 			int dMax = WarpWingModConfigHolder.CONFIG.wwRandomTPMaxDistance.get();
@@ -72,6 +73,7 @@ public abstract class AbstractItemWarpWing extends ItemLore {
 			int distX = RandomUtils.nextInt(dMin, dMax);
 			int distZ = RandomUtils.nextInt(dMin, dMax);
 			
+			respawnDimension = player.serverLevel();
 			int y = respawnDimension.getLogicalHeight();
 			BlockPos.MutableBlockPos mutable = new BlockPos.MutableBlockPos(player.getBlockX() + distX, y, player.getBlockZ() + distZ);
 			while (mutable.getY() >= respawnDimension.getMinBuildHeight()) {
@@ -80,13 +82,13 @@ public abstract class AbstractItemWarpWing extends ItemLore {
 				}
 				mutable = mutable.move(Direction.DOWN);
 			}
-			return mutable.above();
+			return new Tuple<>(mutable.above(), respawnDimension);
 		}
 		BlockPos respawnPosition = player.getRespawnPosition();
 		if (respawnPosition == null) {
 				respawnPosition = new BlockPos(respawnDimension.getLevelData().getXSpawn(), respawnDimension.getLevelData().getYSpawn(), respawnDimension.getLevelData().getZSpawn());
 		}
-		return respawnPosition;
+		return new Tuple<>(respawnPosition, respawnDimension);
 	}
 
 	protected boolean canTeleport() {
@@ -101,12 +103,12 @@ public abstract class AbstractItemWarpWing extends ItemLore {
 		if (user instanceof ServerPlayer) {
 			ServerPlayer player = (ServerPlayer) user;
 			ServerLevel respawnDimension = world.getServer().getLevel(player.getRespawnDimension());
-			BlockPos respawnPosition = this.getRespawnPosition(player, respawnDimension);
+			Tuple<BlockPos, ServerLevel> respawnPosition = this.getRespawnPosition(player, respawnDimension);
 			if (respawnPosition != null) {
 				item.hurtAndBreak(1, user, (p_220038_0_) -> {
 					p_220038_0_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
 				});
-				this.performTeleport(player, respawnDimension, respawnPosition);
+				this.performTeleport(player, respawnPosition.getB(), respawnPosition.getA());
 			}
 		} /*else if(world.isClientSide) { 
 			world.playLocalSound(user.getX(), user.getY(), user.getZ(), WWSounds.ITEM_WARP_WING_WOOSH, SoundCategory.AMBIENT, 10.0F, 1.0F, false);
